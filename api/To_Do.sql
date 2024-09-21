@@ -1,0 +1,38 @@
+CREATE DATABASE IF NOT EXISTS To_Do;
+USE To_Do;
+
+CREATE TABLE IF NOT EXISTS Usuarios (
+    idUsuarios INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(45) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    dataNasc DATE NOT NULL,
+    senha VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS ToDo (
+    idToDo INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    Titulo VARCHAR(50) NOT NULL,
+    feito BOOL NOT NULL DEFAULT FALSE,
+    dataFeito DATE,
+    descricao VARCHAR(200) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS ToDo_Usuario (
+    idUsuarios INT NOT NULL,
+    idToDo INT NOT NULL,
+    dataHj DATE NOT NULL ,
+    PRIMARY KEY (idUsuarios, idToDo),
+    FOREIGN KEY (idUsuarios) REFERENCES Usuarios(idUsuarios),
+    FOREIGN KEY (idToDo) REFERENCES ToDo(idToDo)
+);
+
+CREATE TRIGGER before_insert_ToDo_Usuario
+BEFORE INSERT ON ToDo_Usuario
+FOR EACH ROW
+SET NEW.dataHj = CURDATE();
+
+CREATE TRIGGER before_update_ToDo
+BEFORE UPDATE ON ToDo
+FOR EACH ROW
+SET NEW.dataHj = CURDATE();
+
