@@ -2,7 +2,10 @@ import express from "express";
 import { 
   getUsers, addUser, updateUser, deleteUser, 
   getTODO, addTODO, updateTODO, deleteTODO, validaTODO, newDay, 
-  getData 
+  getData, 
+  getEmail,
+  forgotPassword,
+  resetPassword
 } from "../controllers/user.js";
 
 const router = express.Router();
@@ -25,5 +28,10 @@ router.put("/todos/validate/:idToDo", validaTODO);
 
 
 router.get("/data", getData);                  
-router.put("/reset", newDay);                 
+router.put("/reset", newDay);     
+
+//rotas para recuperação de senha
+router.get("/email/:email", getEmail);
+router.put("/forgotpassword/:email", forgotPassword);
+router.put("/resetpassword/:token", resetPassword);
 export default router;
