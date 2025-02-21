@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import bcrypt from "bcryptjs";
 
 export const AuthContext = createContext({});
 
@@ -32,8 +33,8 @@ export const AuthProvider = ({ children }) => {
             const hasUser = userStorage?.find((user) => user.email === email);
 
             if (hasUser) {
-                // Verifica se a senha está correta
-                if (hasUser.senha === senha) {
+                const senhaValida = await bcrypt.compare(senha, hasUser.senha);
+                if (senhaValida) {
                     const token = Math.random().toString(36).substring(2);
                     localStorage.setItem("user_token", JSON.stringify({ email, token, id: hasUser.idUsuarios }));
                     localStorage.setItem("users_db", JSON.stringify(userStorage));
@@ -58,7 +59,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        
+
         <AuthContext.Provider value={{ user, signed: !!user, login, signout }}>
             {children}
         </AuthContext.Provider>

@@ -12,51 +12,60 @@ const Form = ({ onEdit, setOnEdit, getUsers }) => {
     const ref = useRef();
 
     useEffect(() => {
-        if(onEdit) {
+        if (onEdit) {
             const user = ref.current;
-    
+
             user.nome.value = onEdit.nome;
             user.email.value = onEdit.email;
             user.senha.value = onEdit.senha;
             user.dataNasc.value = onEdit.dataNasc;
-    
+
         }
     }, [onEdit]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const user = ref.current;
-        if(
+        const email = user.email.value;
+
+
+        if (
             !user.nome.value ||
             !user.email.value ||
             !user.senha.value ||
-            !user.dataNasc.value 
+            !user.dataNasc.value
         ) {
             return toast.warn("Preencha todos os campos")
         }
 
+        const response = await axios.get(`http://localhost:8800/email/` + email);
+        if (response.data) {
+            toast.warn("Usuário já cadastrado.");
+            return;
+        }
+
         if (onEdit) {
             await axios
-              .put("http://localhost:8800/users/" + onEdit.idUsuarios, {
-                nome: user.nome.value,
-                email: user.email.value,
-                senha: user.senha.value,
-                dataNasc: user.dataNasc.value,
-              })
-              .then(({ data }) => toast.success(data))
-              .catch(({ data }) => toast.error(data));
-              
-          } else {
+                .put("http://localhost:8800/users/" + onEdit.idUsuarios, {
+                    nome: user.nome.value,
+                    email: user.email.value,
+                    senha: user.senha.value,
+                    dataNasc: user.dataNasc.value,
+                })
+                .then(({ data }) => toast.success(data))
+                .catch(({ data }) => toast.error(data));
+
+        } else {
             await axios
-              .post("http://localhost:8800/users", {
-                nome: user.nome.value,
-                email: user.email.value,
-                senha: user.senha.value,
-                dataNasc: user.dataNasc.value,
-              })
-              .then(({ data }) => toast.success(data))
-              .catch(({ data }) => toast.error(data));
-          }
+                .post("http://localhost:8800/users", {
+                    nome: user.nome.value,
+                    email: user.email.value,
+                    senha: user.senha.value,
+                    dataNasc: user.dataNasc.value,
+                })
+                .then(({ data }) => toast.success(data))
+                .catch(({ data }) => toast.error(data));
+        }
 
         user.nome.value = "";
         user.email.value = "";
@@ -70,20 +79,20 @@ const Form = ({ onEdit, setOnEdit, getUsers }) => {
     return (
         <C.FormContainer ref={ref} onSubmit={handleSubmit}>
             <C.InputArea>
-            <C.Label>Nome</C.Label>
-            <C.Input name="nome" />
+                <C.Label>Nome</C.Label>
+                <C.Input name="nome" />
             </C.InputArea>
             <C.InputArea>
-            <C.Label>Email</C.Label>
-            <C.Input name="email" type="email" />
+                <C.Label>Email</C.Label>
+                <C.Input name="email" type="email" />
             </C.InputArea>
             <C.InputArea>
-            <C.Label>Senha</C.Label>
-            <C.Input name="senha" />
+                <C.Label>Senha</C.Label>
+                <C.Input name="senha" />
             </C.InputArea>
             <C.InputArea>
-            <C.Label>Data de Nascimento</C.Label>
-            <C.Input name="dataNasc" type="date" />
+                <C.Label>Data de Nascimento</C.Label>
+                <C.Input name="dataNasc" type="date" />
             </C.InputArea>
 
             <C.Button type="submit">Salvar</C.Button>

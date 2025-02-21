@@ -14,7 +14,7 @@ function App() {
     const { onEdit } = location.state || {}; // Pega o estado se existir
 
     const [users, setUsers] = useState([]);
-    const [onEditState, setOnEdit] = useState(onEdit || null); // Corrigido aqui
+    const [onEditState, setOnEdit] = useState(onEdit || null); 
 
     const getUsers = async () => {
         try {
@@ -35,7 +35,7 @@ function App() {
         <>
             <C.Container>
                 <C.Title> {onEditState ? "Editar Usuário" : "Cadastre"}
-                    <C.Strong>{!onEditState && <Link to="/login">&nbsp;Login</Link>}
+                    <C.Strong>{!onEditState && <Link to="/login">&nbsp;| Login</Link>}
                         
                     </C.Strong>
                 </C.Title>

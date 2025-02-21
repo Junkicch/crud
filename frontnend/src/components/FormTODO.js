@@ -3,11 +3,13 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import * as C from "./styles";
 import { AuthContext } from "../Contexts/auth";
+import { useNavigate } from "react-router-dom";
 
 const FormTODO = ({ onEdit, setOnEdit, getTODO }) => {
     const { user } = useContext(AuthContext);
     const [Titulo, setTitulo] = useState("");
     const [descricao, setDescricao] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (onEdit) {
@@ -34,12 +36,13 @@ const FormTODO = ({ onEdit, setOnEdit, getTODO }) => {
                     descricao,
                 });
                 toast.success("Tarefa atualizada com sucesso");
+                navigate("/home");
             } else {
                 // Adicionar nova tarefa
                 await axios.post("http://localhost:8800/todos", {
                     Titulo,
                     descricao,
-                    idUsuarios: user.id, // Envia o ID do usuário autenticado
+                    idUsuarios: user.id,
                 });
                 toast.success("Tarefa adicionada com sucesso");
             }

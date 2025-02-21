@@ -1,14 +1,17 @@
-import React, { useState } from "react"; 
+import React, { useState } from "react";
 import axios from "axios";
 import { FaTrash, FaEdit, FaRegSquare, FaCheck, FaChevronDown } from "react-icons/fa";
 import { toast } from "react-toastify";
 import * as C from "./styles";
+import { useNavigate } from "react-router-dom";
 
 const GridTODO = ({ ToDo, setToDo, setOnEdit }) => {
     const [expandedItem, setExpandedItem] = useState(null); // Estado para controlar dropdowns expandidos
+    const navigate = useNavigate("");
 
     const handleEdit = (item) => {
         setOnEdit(item);
+        navigate("/edit", { state: { onEdit: item } });
     };
 
     const handleDelete = async (idToDo) => {
@@ -41,7 +44,7 @@ const GridTODO = ({ ToDo, setToDo, setOnEdit }) => {
         <C.Table>
             <C.Thead>
                 <C.Tr>
-                   
+
                 </C.Tr>
             </C.Thead>
             <C.Tbody>
@@ -49,25 +52,25 @@ const GridTODO = ({ ToDo, setToDo, setOnEdit }) => {
                     <React.Fragment key={i}>
                         <C.Tr>
                             <C.Td alignCenter width="5%">
-                                <FaChevronDown 
-                                    onClick={() => handleDropDown(item.idToDo)} 
+                                <FaChevronDown
+                                    onClick={() => handleDropDown(item.idToDo)}
                                     aria-label={expandedItem === item.idToDo ? "Fechar" : "Expandir"}
                                 />
                             </C.Td>
                             <C.Td width="30%">{item.Titulo}</C.Td>
-                            <C.Td width="20%">{item.feito ? "Feito" : "Pendente"}</C.Td>
+                            <C.Td width="40%">{item.feito ? "Feito" : "Pendente"}</C.Td>
                             <C.Td alignCenter width="5%">
                                 <FaEdit onClick={() => handleEdit(item)} aria-label={`Editar ${item.Titulo}`} />
-                                </C.Td>
+                            </C.Td>
                             <C.Td alignCenter width="5%">
                                 <FaTrash onClick={() => handleDelete(item.idToDo)} aria-label={`Excluir ${item.Titulo}`} />
-                                </C.Td>
+                            </C.Td>
 
-                                <C.Td alignCenter width="5%">{item.feito ? (
-                                    <FaCheck onClick={() => handleVerification(item.idToDo, item.feito)} aria-label="Marcar como não feito" />
-                                ) : (
+                            <C.Td alignCenter width="5%">{item.feito ? (
+                                <FaCheck onClick={() => handleVerification(item.idToDo, item.feito)} aria-label="Marcar como não feito" />
+                            ) : (
                                 <FaRegSquare onClick={() => handleVerification(item.idToDo, item.feito)} aria-label="Marcar como feito" />)}
-                                </C.Td>
+                            </C.Td>
 
                         </C.Tr>
                         {expandedItem === item.idToDo && (

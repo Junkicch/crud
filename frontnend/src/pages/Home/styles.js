@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
-export const Container = styled.div``;
+export const Container = styled.div`
+gap: 25px;
+display: flex;
+flex-direction: column;
+align-items: center;
+`;
 
 export const Login = styled.button`
 padding: 10px;
@@ -14,18 +19,20 @@ padding: 10px;
 `;
 
 export const Strong = styled.strong`
-margin-left: 70%;
+padding-left: 200px;
+`;
+
+export const Title = styled.h2`
+display: inline-block;
+margin-top: 10px;
 
 `;
 
-export const Title = styled.h2``;
-
 export const Table = styled.table`
-  width: 165px;
   height: 22%;
   position: absolute;
   top: 1rem;
-  right: 38%;
+  right: 40%;
   background-color: #fff;
   padding: 20px;
   box-shadow: 0px 0px 5px #ccc;

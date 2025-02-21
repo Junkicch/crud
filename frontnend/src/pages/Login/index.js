@@ -53,6 +53,7 @@ const Login = () => {
           onChange={(e) => [setSenha(e.target.value), setError("")]}
         />
         <C.LabelError>{error}</C.LabelError>
+        <Link to="/email">&nbsp;Esqueci minha senha</Link>
         <Button Text="Entrar" onClick={handleLogin} />
         <C.LabelCadastro>Novo por aqui?
           <C.Strong>
